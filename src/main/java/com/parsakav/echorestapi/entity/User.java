@@ -1,8 +1,8 @@
 package com.parsakav.echorestapi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 import java.util.Objects;
 

@@ -1,8 +1,8 @@
 package com.parsakav.echorestapi.request;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class InfluencerRequest {
 
