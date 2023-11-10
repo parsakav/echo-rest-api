@@ -19,6 +19,8 @@ public class User {
     private String fullName;
     @Column(name = "INFLUENCER_MAIL",unique = true)
     private String mail;
+    @Column(name = "INFLUENCER_PASSWORD",unique = true)
+    private String password;
 
     public long getPhoneNumber() {
         return phoneNumber;
@@ -44,25 +46,22 @@ public class User {
         this.mail = mail;
     }
 
-    public User(long phoneNumber, String fullName, String mail) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User(long phoneNumber, String fullName, String mail, String password) {
         this.phoneNumber = phoneNumber;
         this.fullName = fullName;
         this.mail = mail;
+        this.password = password;
     }
     public User(){
 
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return phoneNumber == user.phoneNumber && Objects.equals(fullName, user.fullName) && Objects.equals(mail, user.mail);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(phoneNumber, fullName, mail);
-    }
-}
+ }

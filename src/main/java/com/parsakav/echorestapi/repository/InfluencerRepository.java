@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InfluencerRepository extends JpaRepository<Influencer,Long> {
-
+public abstract Influencer findByMail(String mail);
 
 }

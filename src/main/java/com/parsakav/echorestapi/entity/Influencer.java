@@ -26,12 +26,14 @@ public class Influencer extends User {
 
     }
 
-    public Influencer(long phoneNumber, String fullName, String mail, String accountId, String accountType, int numberOfFollowers) {
-        super(phoneNumber, fullName, mail);
+    public Influencer(long phoneNumber, String fullName, String mail, String password, String accountId, String accountType, int numberOfFollowers) {
+        super(phoneNumber, fullName, mail, password);
         this.accountId = accountId;
         this.accountType = accountType;
         this.numberOfFollowers = numberOfFollowers;
     }
+
+
 
     public String getAccountType() {
         return accountType;

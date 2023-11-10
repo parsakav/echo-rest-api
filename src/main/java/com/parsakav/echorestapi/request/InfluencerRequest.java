@@ -1,8 +1,6 @@
 package com.parsakav.echorestapi.request;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
-import org.springframework.beans.factory.annotation.Value;
 
 public class InfluencerRequest {
 
@@ -23,6 +21,9 @@ public class InfluencerRequest {
     @NotNull(message = "Account type can't be empty")
     @NotEmpty(message = "Account type can't be null")
     private String accountType;
+    @NotNull(message = "Password can't be empty")
+    @NotEmpty(message = "Password can't be null")
+    private String password;
 
     @Min(10000)
     private int numberOfFollowers;
@@ -30,13 +31,22 @@ public class InfluencerRequest {
 
 
 
-    public InfluencerRequest(long phoneNumber, String fullName, String mail, String accountId, String accountType, int numberOfFollowers) {
+    public InfluencerRequest(long phoneNumber, String fullName, String mail, String accountId, String accountType, String password, int numberOfFollowers) {
         this.phoneNumber = phoneNumber;
         this.fullName = fullName;
         this.mail = mail;
         this.accountId = accountId;
         this.accountType = accountType;
+        this.password = password;
         this.numberOfFollowers = numberOfFollowers;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public long getPhoneNumber() {
