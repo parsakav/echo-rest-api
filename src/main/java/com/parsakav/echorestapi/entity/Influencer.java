@@ -17,14 +17,20 @@ public class Influencer extends User {
 
     @Column(name = "INFLUENCER_ACCOUNTID",unique = true,nullable = false)
     private String accountId;
+    @Column(name = "INFLUENCER_ACCOUNTTYPE",unique = true,nullable = false)
+    private String accountType;
+    @Column(name = "INFLUENCER_FOLLOWERS",unique = true,nullable = false)
+    private int numberOfFollowers;
 
     public Influencer(){
 
     }
 
-    public Influencer(long phoneNumber, String fullName, String mail, String accountId) {
+    public Influencer(long phoneNumber, String fullName, String mail, String accountId, String accountType, int numberOfFollowers) {
         super(phoneNumber, fullName, mail);
         this.accountId = accountId;
+        this.accountType = accountType;
+        this.numberOfFollowers = numberOfFollowers;
     }
 
     public String getAccountId() {
@@ -35,17 +41,5 @@ public class Influencer extends User {
         this.accountId = accountId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Influencer that = (Influencer) o;
-        return Objects.equals(accountId, that.accountId);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), accountId);
-    }
 }

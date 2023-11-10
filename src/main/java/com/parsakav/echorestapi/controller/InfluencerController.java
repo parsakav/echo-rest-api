@@ -23,6 +23,7 @@ public class InfluencerController {
 
     @PostMapping
     public ResponseEntity<InfluencerResponse> save(@RequestBody @Valid InfluencerRequest influencerRequest, BindingResult bindingResult){
+
         if(bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(System.out::println);
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());

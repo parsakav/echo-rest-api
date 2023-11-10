@@ -1,5 +1,6 @@
 package com.parsakav.echorestapi.request;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,15 +18,23 @@ public class InfluencerRequest {
     @NotNull(message = "Account id can't be empty")
     @NotEmpty(message = "Account id can't be null")
     private String accountId;
+    @NotNull(message = "Account type can't be empty")
+    @NotEmpty(message = "Account type can't be null")
+    private String accountType;
+    @NotNull(message = "Followers can't be empty")
+    @NotEmpty(message = "Followers can't be null")
+    private int numberOfFollowers;
 
-    public InfluencerRequest() {
-    }
 
-    public InfluencerRequest(long phoneNumber, String fullName, String mail, String accountId) {
+
+
+    public InfluencerRequest(long phoneNumber, String fullName, String mail, String accountId, String accountType, int numberOfFollowers) {
         this.phoneNumber = phoneNumber;
         this.fullName = fullName;
         this.mail = mail;
         this.accountId = accountId;
+        this.accountType = accountType;
+        this.numberOfFollowers = numberOfFollowers;
     }
 
     public long getPhoneNumber() {
@@ -58,5 +67,21 @@ public class InfluencerRequest {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public int getNumberOfFollowers() {
+        return numberOfFollowers;
+    }
+
+    public void setNumberOfFollowers(int numberOfFollowers) {
+        this.numberOfFollowers = numberOfFollowers;
     }
 }
