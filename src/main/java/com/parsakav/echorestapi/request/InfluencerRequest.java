@@ -1,5 +1,6 @@
 package com.parsakav.echorestapi.request;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
 public class InfluencerRequest {
@@ -24,6 +25,8 @@ public class InfluencerRequest {
     @NotNull(message = "Password can't be empty")
     @NotEmpty(message = "Password can't be null")
     private String password;
+
+
 
     @Min(10000)
     private int numberOfFollowers;

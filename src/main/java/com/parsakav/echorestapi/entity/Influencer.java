@@ -15,11 +15,11 @@ import java.util.Objects;
 
 public class Influencer extends User {
 
-    @Column(name = "INFLUENCER_ACCOUNTID",unique = true,nullable = false)
+    @Column(name = "ACCOUNTID",unique = true,nullable = false)
     private String accountId;
-    @Column(name = "INFLUENCER_ACCOUNTTYPE",unique = true,nullable = false)
+    @Column(name = "ACCOUNTTYPE",nullable = false)
     private String accountType;
-    @Column(name = "INFLUENCER_FOLLOWERS",unique = true,nullable = false)
+    @Column(name = "FOLLOWERS",nullable = false)
     private int numberOfFollowers;
 
     public Influencer(){

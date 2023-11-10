@@ -39,7 +39,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		try {
-			System.out.println("Hi");
+
 			UserLoginRequest creds = new ObjectMapper().readValue(request.getInputStream(),
 					UserLoginRequest.class);
 
@@ -68,6 +68,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 /*
 			response.addHeader("UserId", user.getUserId());
 */
+
+
 
 	}
 

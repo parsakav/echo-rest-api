@@ -9,17 +9,17 @@ import java.util.Objects;
 @MappedSuperclass
 public class User {
     @Id
-    @Column(name = "INFLUENCER_PHONENUMBER")
+    @Column(name = "PHONENUMBER")
 /*    @NotNull(message = "Phone number can't be empty")
     @NotEmpty(message = "Phone number can't be null")*/
-    private long phoneNumber;
-    @Column(name = "INFLUENCER_FULLNAME",nullable = false)
+    private Long phoneNumber;
+    @Column(name = "FULLNAME",nullable = false)
  /*   @NotNull(message = "Phone number can't be empty")
     @NotEmpty(message = "Phone number can't be null")*/
     private String fullName;
-    @Column(name = "INFLUENCER_MAIL",unique = true)
+    @Column(name = "MAIL",unique = true)
     private String mail;
-    @Column(name = "INFLUENCER_PASSWORD",unique = true)
+    @Column(name = "PASSWORD",unique = true)
     private String password;
 
     public long getPhoneNumber() {

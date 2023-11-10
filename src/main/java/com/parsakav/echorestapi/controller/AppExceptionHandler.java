@@ -24,4 +24,10 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(userServiceException.getMessage(),new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({Throwable.class})
+    public ResponseEntity<?> handleUserServiceException(Throwable th, WebRequest webRequest){
+
+        logger.debug("An exception occurred");
+        return new ResponseEntity<>(th.getMessage(),new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -47,6 +47,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 				System.out.println(username);
 				// TODO Auto-generated method stub
 				if (username != null) {
+
 					return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
 				}
 			}

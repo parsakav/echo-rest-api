@@ -19,19 +19,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
 @RestController
 @Tag(name = "Influencer", description = "Influencer management APIs")
-@RequestMapping(path = "/api/influencer",consumes = {MediaType.APPLICATION_JSON_VALUE
-        ,MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE
-        ,MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(path = "/api/influencer")
 public class InfluencerController {
     @Autowired
     private InfluencerService influencerService;
@@ -51,7 +49,9 @@ public class InfluencerController {
            ),
           @ApiResponse(responseCode = "400",content = { @Content(schema = @Schema(implementation = String.class), mediaType ="text/plain")}, description = "The data may already exist or may not be valid")}
   )
-    @PostMapping()
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE
+            ,MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE
+            ,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<InfluencerResponse> save(@RequestBody @Valid InfluencerRequest influencerRequest, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
@@ -66,5 +66,18 @@ public class InfluencerController {
         BeanUtils.copyProperties(dto,influencerResponse);
 
         return  ResponseEntity.ok(influencerResponse);
+    }
+
+
+
+    @GetMapping()
+    public ResponseEntity<InfluencerResponse> get(){
+        UsernamePasswordAuthenticationToken u = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        InfluencerDTO influencerDTO=influencerService.findByPhonenumber(Long.parseLong(u.getPrincipal().toString()));
+        if(influencerDTO!=null) {
+            InfluencerResponse influencerResponse = new InfluencerResponse();
+            BeanUtils.copyProperties(influencerDTO,influencerResponse);
+            return ResponseEntity.ok().body(influencerResponse);
+        } return ResponseEntity.notFound().build();
     }
 }
