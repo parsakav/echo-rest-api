@@ -13,53 +13,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "INFLUENCER")
 
-public class Influencer {
-    @Id
-    @Column(name = "INFLUENCER_PHONENUMBER")
-/*    @NotNull(message = "Phone number can't be empty")
-    @NotEmpty(message = "Phone number can't be null")*/
-    private long phoneNumber;
-    @Column(name = "INFLUENCER_FULLNAME",nullable = false)
- /*   @NotNull(message = "Phone number can't be empty")
-    @NotEmpty(message = "Phone number can't be null")*/
-    private String fullName;
-    @Column(name = "INFLUENCER_MAIL",unique = true)
-    private String mail;
+public class Influencer extends User {
+
     @Column(name = "INFLUENCER_ACCOUNTID",unique = true,nullable = false)
     private String accountId;
 
     public Influencer(){
 
     }
+
     public Influencer(long phoneNumber, String fullName, String mail, String accountId) {
-        this.phoneNumber = phoneNumber;
-        this.fullName = fullName;
-        this.mail = mail;
+        super(phoneNumber, fullName, mail);
         this.accountId = accountId;
-    }
-
-    public long getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(long phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
     }
 
     public String getAccountId() {
@@ -74,12 +39,13 @@ public class Influencer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Influencer that = (Influencer) o;
-        return phoneNumber == that.phoneNumber && Objects.equals(fullName, that.fullName) && Objects.equals(mail, that.mail) && Objects.equals(accountId, that.accountId);
+        return Objects.equals(accountId, that.accountId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phoneNumber, fullName, mail, accountId);
+        return Objects.hash(super.hashCode(), accountId);
     }
 }
