@@ -1,9 +1,9 @@
 package com.parsakav.echorestapi.response;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class InfluencerResponse {
 
@@ -15,15 +15,38 @@ public class InfluencerResponse {
     private String mail;
 
     private String accountId;
+    private String accountType;
+
+
+    private int numberOfFollowers;
 
     public InfluencerResponse(){
 
     }
-    public InfluencerResponse(long phoneNumber, String fullName, String mail, String accountId) {
+
+    public InfluencerResponse(long phoneNumber, String fullName, String mail, String accountId, String accountType, int numberOfFollowers) {
         this.phoneNumber = phoneNumber;
         this.fullName = fullName;
         this.mail = mail;
         this.accountId = accountId;
+        this.accountType = accountType;
+        this.numberOfFollowers = numberOfFollowers;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public int getNumberOfFollowers() {
+        return numberOfFollowers;
+    }
+
+    public void setNumberOfFollowers(int numberOfFollowers) {
+        this.numberOfFollowers = numberOfFollowers;
     }
 
     public long getPhoneNumber() {

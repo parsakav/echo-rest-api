@@ -1,43 +1,17 @@
-package com.parsakav.echorestapi.request;
+package com.parsakav.echorestapi.dto;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.*;
-import org.springframework.beans.factory.annotation.Value;
-
-public class InfluencerRequest {
-
-
-
-    @Min(1000000000)
-
+public class InfluencerDTO {
     private long phoneNumber;
-    @NotNull(message = "Name can't be empty")
-    @NotEmpty(message = "Name can't be null")
+
     private String fullName;
 
-    @Email
     private String mail;
-    @NotNull(message = "Account id can't be empty")
-    @NotEmpty(message = "Account id can't be null")
+
     private String accountId;
-    @NotNull(message = "Account type can't be empty")
-    @NotEmpty(message = "Account type can't be null")
     private String accountType;
 
-    @Min(10000)
+
     private int numberOfFollowers;
-
-
-
-
-    public InfluencerRequest(long phoneNumber, String fullName, String mail, String accountId, String accountType, int numberOfFollowers) {
-        this.phoneNumber = phoneNumber;
-        this.fullName = fullName;
-        this.mail = mail;
-        this.accountId = accountId;
-        this.accountType = accountType;
-        this.numberOfFollowers = numberOfFollowers;
-    }
 
     public long getPhoneNumber() {
         return phoneNumber;

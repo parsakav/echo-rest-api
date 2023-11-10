@@ -21,7 +21,7 @@ public class AppExceptionHandler {
         logger.trace("Now handleUserServiceException is running");
 
         logger.debug("A user service exception occurred and we handle it");
-        return new ResponseEntity<>(userServiceException.getMessage(),new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(userServiceException.getMessage(),new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
 }
