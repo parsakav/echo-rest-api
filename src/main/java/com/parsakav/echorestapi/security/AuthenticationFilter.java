@@ -45,7 +45,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 			return authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(creds.getPhoneNumber(), creds.getPassword(), new ArrayList()));
-		} catch (IOException e) {
+		}catch (com.fasterxml.jackson.databind.exc.MismatchedInputException e){
+			System.out.println(e.getMessage());
+		}
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

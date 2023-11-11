@@ -8,7 +8,6 @@ public class InfluencerRequest {
 
 
     @Min(1000000000)
-
     private long phoneNumber;
     @NotNull(message = "Name can't be empty")
     @NotEmpty(message = "Name can't be null")

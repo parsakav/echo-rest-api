@@ -35,10 +35,10 @@ public class SpringFoxConfig {
         //License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 
         Info info = new Info()
-                .title("Tutorial Management API")
+                .title("Software engineering API")
                 .version("1.0")
                 .contact(contact)
-                .description("This API exposes endpoints to manage tutorials.")
+                .description("This API exposes endpoints to AD")
                 .termsOfService("https://www.bezkoder.com/terms");
                 //.license(mitLicense);
 

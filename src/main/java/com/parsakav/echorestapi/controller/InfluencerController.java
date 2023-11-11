@@ -8,6 +8,7 @@ import com.parsakav.echorestapi.response.ErrorMessages;
 import com.parsakav.echorestapi.response.InfluencerResponse;
 import com.parsakav.echorestapi.service.InfluencerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -68,7 +69,20 @@ public class InfluencerController {
         return  ResponseEntity.ok(influencerResponse);
     }
 
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Retrieve an influencer by authorization header ",
+              description = "Get a Tutorial object by specifying authorization header . The response is InfluencerResponse object "
 
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(headers = {@Header(name = "Authorization",required = true,description = "The Value must be influencer token")},responseCode = "200",description = "The InfluencerResponse object will be return",
+                    content = { @Content(schema = @Schema(implementation = InfluencerResponse.class), mediaType = "application/json" )
+                            ,@Content(schema = @Schema(implementation = InfluencerResponse.class),mediaType = "application/xml")
+                            ,}
+            ),
+            @ApiResponse(responseCode = "403",content = { @Content(schema = @Schema(implementation = String.class), mediaType ="text/plain")}, description = "If token wasn't valid")}
+    )
 
     @GetMapping()
     public ResponseEntity<InfluencerResponse> get(){
