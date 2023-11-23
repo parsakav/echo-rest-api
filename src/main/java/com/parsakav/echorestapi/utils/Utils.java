@@ -1,8 +1,12 @@
 package com.parsakav.echorestapi.utils;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Random;
 
+import com.parsakav.echorestapi.dto.InfluencerDTO;
+import com.parsakav.echorestapi.entity.Influencer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,5 +27,8 @@ public class Utils {
         return userIdGenerated.toString();
 
     }
+
+
+
 
 }

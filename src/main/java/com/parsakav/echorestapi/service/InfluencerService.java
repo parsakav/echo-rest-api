@@ -8,5 +8,6 @@ public interface InfluencerService {
     public InfluencerDTO save(InfluencerDTO influencerDTO);
 
     List<InfluencerDTO> findAll();
+    List<InfluencerDTO> findAllByFollowers(int followers);
     InfluencerDTO findByPhonenumber(Long principal);
 }

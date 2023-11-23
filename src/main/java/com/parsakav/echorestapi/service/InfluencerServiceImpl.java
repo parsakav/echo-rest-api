@@ -45,15 +45,19 @@ public class InfluencerServiceImpl implements InfluencerService{
     public List<InfluencerDTO> findAll() {
         List<InfluencerDTO> influencerDTOS = new LinkedList<>();
         List<Influencer> all = repository.findAll();
-        for(Influencer a:all){
-            InfluencerDTO returnValue=new InfluencerDTO();
+        copyProp(all,influencerDTOS);
 
-
-                BeanUtils.copyProperties(a, returnValue);
-                influencerDTOS.add(returnValue);
-        }
         return influencerDTOS;
     }
+
+    @Override
+    public List<InfluencerDTO> findAllByFollowers(int followers) {
+        List<InfluencerDTO> influencerDTOS = new LinkedList<>();
+        List<Influencer> all = repository.findInfluencersFollowersGraterThan(followers);
+     copyProp(all,influencerDTOS);
+        return influencerDTOS;
+    }
+
 
     //@Transactional(readOnly = true)
     @Override
@@ -72,5 +76,13 @@ if(influencer!=null) {
 return null;
     }
 
+    public void copyProp(List<Influencer> all, List<InfluencerDTO> influencerDTOS){
+        for(Influencer a:all){
+            InfluencerDTO returnValue=new InfluencerDTO();
+
+            BeanUtils.copyProperties(a, returnValue);
+            influencerDTOS.add(returnValue);
+        }
+    }
 
 }

@@ -17,7 +17,6 @@ public class UserDetailsImpl implements  UserDetailsService {
     private InfluencerRepository influencerRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Log");
         com.parsakav.echorestapi.entity.User user= influencerRepository.findById(Long.parseLong(username)).orElseThrow((Supplier<UsernameNotFoundException>) () -> new UsernameNotFoundException("User name not found")
         );
         return new User(String.valueOf(user.getPhoneNumber()),user.getPassword(),new ArrayList<>());

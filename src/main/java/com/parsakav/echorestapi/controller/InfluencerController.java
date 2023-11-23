@@ -77,6 +77,37 @@ public class InfluencerController {
     @Operation(
             //summary = "Retrieve a Tutorial by Id",
             summary = "Retrieve all influencers ",
+            description = "It's clear"
+
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "The InfluencerResponse objects(as json/xml) will be return",
+                    content = { @Content(schema = @Schema(implementation = InfluencerResponse.class), mediaType = "application/json" )
+                            ,@Content(schema = @Schema(implementation = InfluencerResponse.class),mediaType = "application/xml")
+                            ,}
+            ),
+            @ApiResponse(responseCode = "403",content = { @Content(schema = @Schema(implementation = String.class), mediaType ="text/plain")}, description = "If token wasn't valid")}
+    )
+
+
+    @GetMapping(path = "/search/{followers}",produces = {MediaType.APPLICATION_JSON_VALUE
+            ,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<InfluencerResponse>> get(@PathVariable("followers")int followers){
+        List<InfluencerResponse> influencerResponses = new LinkedList<>();
+        List<InfluencerDTO> all = influencerService.findAllByFollowers(followers);
+        for(InfluencerDTO a:all){
+            InfluencerResponse returnValue=new InfluencerResponse();
+
+
+            BeanUtils.copyProperties(a, returnValue);
+            influencerResponses.add(returnValue);
+        }
+        ResponseEntity<List<InfluencerResponse>> response=new   ResponseEntity<>(influencerResponses, HttpStatus.OK);
+        return response;
+    }
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Retrieve all influencers ",
               description = "It's clear"
 
             /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
@@ -132,4 +163,6 @@ public class InfluencerController {
             return ResponseEntity.ok().body(influencerResponse);
         } return ResponseEntity.notFound().build();
     }
+
+
 }
