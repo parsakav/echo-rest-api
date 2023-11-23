@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +39,20 @@ public class InfluencerServiceImpl implements InfluencerService{
         BeanUtils.copyProperties(influencer,returnValue);
 
         return returnValue;
+    }
+
+    @Override
+    public List<InfluencerDTO> findAll() {
+        List<InfluencerDTO> influencerDTOS = new LinkedList<>();
+        List<Influencer> all = repository.findAll();
+        for(Influencer a:all){
+            InfluencerDTO returnValue=new InfluencerDTO();
+
+
+                BeanUtils.copyProperties(a, returnValue);
+                influencerDTOS.add(returnValue);
+        }
+        return influencerDTOS;
     }
 
     //@Transactional(readOnly = true)

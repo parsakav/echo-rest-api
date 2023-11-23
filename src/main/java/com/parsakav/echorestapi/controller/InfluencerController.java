@@ -2,6 +2,7 @@ package com.parsakav.echorestapi.controller;
 
 
 import com.parsakav.echorestapi.dto.InfluencerDTO;
+import com.parsakav.echorestapi.entity.Influencer;
 import com.parsakav.echorestapi.exceptions.UserServiceException;
 import com.parsakav.echorestapi.request.InfluencerRequest;
 import com.parsakav.echorestapi.response.ErrorMessages;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +29,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @RestController
 @Tag(name = "Influencer", description = "Influencer management APIs")
@@ -71,12 +76,12 @@ public class InfluencerController {
 
     @Operation(
             //summary = "Retrieve a Tutorial by Id",
-            summary = "Retrieve an influencer by authorization header ",
-              description = "Get a Tutorial object by specifying authorization header . The response is InfluencerResponse object "
+            summary = "Retrieve all influencers ",
+              description = "It's clear"
 
             /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
     @ApiResponses({
-            @ApiResponse(headers = {@Header(name = "Authorization",required = true,description = "The Value must be influencer token")},responseCode = "200",description = "The InfluencerResponse object will be return",
+            @ApiResponse(responseCode = "200",description = "The InfluencerResponse objects(as json/xml) will be return",
                     content = { @Content(schema = @Schema(implementation = InfluencerResponse.class), mediaType = "application/json" )
                             ,@Content(schema = @Schema(implementation = InfluencerResponse.class),mediaType = "application/xml")
                             ,}
@@ -84,10 +89,43 @@ public class InfluencerController {
             @ApiResponse(responseCode = "403",content = { @Content(schema = @Schema(implementation = String.class), mediaType ="text/plain")}, description = "If token wasn't valid")}
     )
 
-    @GetMapping()
-    public ResponseEntity<InfluencerResponse> get(){
-        UsernamePasswordAuthenticationToken u = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        InfluencerDTO influencerDTO=influencerService.findByPhonenumber(Long.parseLong(u.getPrincipal().toString()));
+
+    @GetMapping( produces = {MediaType.APPLICATION_JSON_VALUE
+            ,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<InfluencerResponse>> get(){
+        List<InfluencerResponse> influencerResponses = new LinkedList<>();
+        List<InfluencerDTO> all = influencerService.findAll();
+        for(InfluencerDTO a:all){
+            InfluencerResponse returnValue=new InfluencerResponse();
+
+
+            BeanUtils.copyProperties(a, returnValue);
+            influencerResponses.add(returnValue);
+        }
+      ResponseEntity<List<InfluencerResponse>> response=new   ResponseEntity<>(influencerResponses, HttpStatus.OK);
+       return response;
+    }
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Retrieve an influencer by phonenumber ",
+            description = "Get a InfluencerResponse object by specifying authorization header . The response is InfluencerResponse object "
+
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(/*headers = {@Header(name = "Authorization",required = true,description = "The Value must be influencer token")}*/
+                    responseCode = "200",description = "The InfluencerResponse object will be return",
+                    content = { @Content(schema = @Schema(implementation = InfluencerResponse.class), mediaType = "application/json" )
+                            ,@Content(schema = @Schema(implementation = InfluencerResponse.class),mediaType = "application/xml")
+                            ,}
+            ),
+            @ApiResponse(responseCode = "403",content = { @Content(schema = @Schema(implementation = String.class), mediaType ="text/plain")}, description = "If token wasn't valid")}
+    )
+
+    @GetMapping(path = "{phoneNumber}",produces = {MediaType.APPLICATION_JSON_VALUE
+            ,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<InfluencerResponse> get(@PathVariable("phoneNumber") String phoneNumber){
+        //UsernamePasswordAuthenticationToken u = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        InfluencerDTO influencerDTO=influencerService.findByPhonenumber(Long.parseLong(phoneNumber));
         if(influencerDTO!=null) {
             InfluencerResponse influencerResponse = new InfluencerResponse();
             BeanUtils.copyProperties(influencerDTO,influencerResponse);

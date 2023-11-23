@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -39,8 +40,8 @@ public class SecurityConfig {
 					try {
 
 						c.requestMatchers(HttpMethod.POST, SecurityConstant.SIGN_UP_URL)
-										.permitAll().requestMatchers(  "/v3/api-docs/**"
-										,"/swagger-ui/**").permitAll().anyRequest().authenticated()
+										.permitAll().requestMatchers(  "/v3/api-docs/**","/influencer/get"
+										,"/swagger-ui/**").permitAll().requestMatchers(HttpMethod.GET, "/api/influencer").permitAll().anyRequest().authenticated()
 										.and()
 										.sessionManagement((session)->{
 
