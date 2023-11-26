@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InfluencerServiceImpl implements InfluencerService{
@@ -61,10 +60,10 @@ public class InfluencerServiceImpl implements InfluencerService{
 
     //@Transactional(readOnly = true)
     @Override
-    public InfluencerDTO findByPhonenumber(Long principal) {
+    public InfluencerDTO findByPhonenumber(Long phoneNumber) {
         InfluencerDTO returnValue=new InfluencerDTO();
 
-       Influencer influencer= repository.getReferenceById(principal);
+       Influencer influencer= repository.getReferenceById(phoneNumber);
         System.out.println(influencer.getFullName());
 if(influencer!=null) {
     BeanUtils.copyProperties(influencer, returnValue);

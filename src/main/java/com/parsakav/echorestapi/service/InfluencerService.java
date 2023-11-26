@@ -9,5 +9,5 @@ public interface InfluencerService {
 
     List<InfluencerDTO> findAll();
     List<InfluencerDTO> findAllByFollowers(int followers);
-    InfluencerDTO findByPhonenumber(Long principal);
+    InfluencerDTO findByPhonenumber(Long phoneNumber);
 }
