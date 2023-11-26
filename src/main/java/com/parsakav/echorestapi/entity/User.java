@@ -17,7 +17,7 @@ public class User {
  /*   @NotNull(message = "Phone number can't be empty")
     @NotEmpty(message = "Phone number can't be null")*/
     private String fullName;
-    @Column(name = "EMAIL",unique = true,nullable = false)
+    @Column(name = "MAIL",unique = true,nullable = false)
     private String mail;
     @Column(name = "PASSWORD",unique = true,nullable = false)
     private String password;

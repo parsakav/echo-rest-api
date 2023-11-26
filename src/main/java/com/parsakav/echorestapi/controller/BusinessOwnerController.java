@@ -33,9 +33,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Business owner", description = "Business owner management APIs")
 @RequestMapping(path = "/api/business")
 public class BusinessOwnerController {
-    @Autowired
-    private BusinessOwnerService influencerService;
+    private final BusinessOwnerService influencerService;
     private static final Logger logger = LoggerFactory.getLogger(BusinessOwnerController.class);
+
+    public BusinessOwnerController(BusinessOwnerService influencerService) {
+        this.influencerService = influencerService;
+    }
+
     @Operation(
             //summary = "Retrieve a Tutorial by Id",
             summary = "Save a business owner",
@@ -54,7 +58,6 @@ public class BusinessOwnerController {
             ,MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE
             ,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<BusinessOwnerResponse> save(@RequestBody @Valid BusinessOwnerRequest influencerRequest, BindingResult bindingResult){
-
         if(bindingResult.hasErrors()){
             logger.trace("Business owner validation failed");
             bindingResult.getAllErrors().forEach(System.out::println);

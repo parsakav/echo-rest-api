@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BusinessOwnerServiceImpl implements BusinessOwnerService {
@@ -18,19 +19,25 @@ public class BusinessOwnerServiceImpl implements BusinessOwnerService {
     private BusinessOwnerRepository repository;
    @Autowired
    private PasswordEncoder encoder;
-    @Override
-    public BusinessOwnerDTO save(BusinessOwnerDTO influencerDTO) {
-        if(repository.existsById(influencerDTO.getPhoneNumber())){
+   @Transactional
+   @Override
+    public BusinessOwnerDTO save(BusinessOwnerDTO businessOwnerDTO) {
+        if(repository.existsById(businessOwnerDTO.getPhoneNumber())){
             throw new UserServiceException(ErrorMessages.RECORD_ALREADY_EXISTS.getErrorMessage());
         }
         BusinessOwnerDTO returnValue=new BusinessOwnerDTO();
-        BusinessOwner influencer = new BusinessOwner();
-        BeanUtils.copyProperties(influencerDTO,influencer);
-        influencer.setPassword(encoder.encode(influencer.getPassword()));
+        BusinessOwner businessOwner = new BusinessOwner();
 
-        influencer = repository.save(influencer);
+      //  BeanUtils.copyProperties(businessOwnerDTO,businessOwner);
+        businessOwner.setFullName(businessOwnerDTO.getFullName());
+        businessOwner.setPhoneNumber(businessOwnerDTO.getPhoneNumber());
+        businessOwner.setMail(businessOwnerDTO.getMail());
+        businessOwner.setPassword(encoder.encode(businessOwnerDTO.getPassword()));
+        System.out.println(businessOwner.getMail());
+        System.out.println(businessOwner.getPhoneNumber());
+      repository.save(businessOwner);
 
-        BeanUtils.copyProperties(influencer,returnValue);
+        BeanUtils.copyProperties(businessOwner,returnValue);
 
         return returnValue;
     }

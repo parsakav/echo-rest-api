@@ -41,8 +41,12 @@ public class SecurityConfig {
 					try {
 
 						c.requestMatchers(HttpMethod.POST, SecurityConstant.SIGN_UP_URL)
-										.permitAll().requestMatchers(  "/v3/api-docs/**"
-												,"/swagger-ui/**").permitAll().requestMatchers(HttpMethod.GET, "/api/influencer").permitAll()
+										.permitAll()
+								.requestMatchers(  "/v3/api-docs/**","/swagger-ui/**").permitAll()
+								.requestMatchers(HttpMethod.POST, "/api/business").permitAll()
+								.requestMatchers(HttpMethod.GET,"/api/business").permitAll()
+
+								.requestMatchers(HttpMethod.GET, "/api/influencer").permitAll()
 								.requestMatchers(HttpMethod.GET, "/api/influencer/search/**").permitAll()
 								.anyRequest().authenticated()
 										.and()
