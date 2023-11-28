@@ -20,14 +20,13 @@ public class UserDetailsImpl implements  UserDetailsService {
     private BusinessOwnerRepository businessOwnerRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.parsakav.echorestapi.entity.User user= influencerRepository.findById(Long.parseLong(username)).get();
+        com.parsakav.echorestapi.entity.User user= influencerRepository.findById(Long.parseLong(username)).orElse(null);
         if(user!=null) {
             return new User(String.valueOf(user.getPhoneNumber()), user.getPassword(), new ArrayList<>());
         }
-        com.parsakav.echorestapi.entity.BusinessOwner businessOwner= businessOwnerRepository.findById(Long.parseLong(username)).get();
-
+        com.parsakav.echorestapi.entity.BusinessOwner businessOwner= businessOwnerRepository.findById(Long.parseLong(username)).orElse(null);
          if(businessOwner!=null){
-            return new User(String.valueOf(user.getPhoneNumber()), user.getPassword(), new ArrayList<>());
+            return new User(String.valueOf(businessOwner.getPhoneNumber()), businessOwner.getPassword(), new ArrayList<>());
 
         }
          throw new UsernameNotFoundException("User not found");
