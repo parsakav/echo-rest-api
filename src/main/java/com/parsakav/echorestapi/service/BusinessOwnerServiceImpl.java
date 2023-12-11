@@ -2,21 +2,29 @@ package com.parsakav.echorestapi.service;
 
 import com.parsakav.echorestapi.dto.BusinessOwnerDTO;
 import com.parsakav.echorestapi.dto.InfluencerDTO;
+import com.parsakav.echorestapi.dto.OfferDTO;
 import com.parsakav.echorestapi.entity.BusinessOwner;
 import com.parsakav.echorestapi.entity.Influencer;
+import com.parsakav.echorestapi.entity.Offer;
 import com.parsakav.echorestapi.exceptions.UserServiceException;
 import com.parsakav.echorestapi.repository.BusinessOwnerRepository;
+import com.parsakav.echorestapi.repository.OfferRepository;
 import com.parsakav.echorestapi.response.ErrorMessages;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 @Service
 public class BusinessOwnerServiceImpl implements BusinessOwnerService {
    @Autowired
     private BusinessOwnerRepository repository;
+   @Autowired
+   private OfferRepository offerRepository;
    @Autowired
    private PasswordEncoder encoder;
    @Transactional
@@ -56,5 +64,24 @@ public class BusinessOwnerServiceImpl implements BusinessOwnerService {
         }
         return null;
 
+    }
+
+    @Override
+    public OfferDTO makeOffer(OfferDTO offerDTO) {
+       Offer offer = new Offer();
+
+       offer.setDate(new Date());
+       offer.setText(offerDTO.getText());
+       offer.setTitle(offerDTO.getTitle());
+       Influencer influencer = new Influencer();
+       influencer.setPhoneNumber(offerDTO.getInfluencerPhoneNumber());
+       BusinessOwner businessOwner = new BusinessOwner();
+       businessOwner.setPhoneNumber(offerDTO.getBuisnessOwnerPhoneNumber());
+       offer.setBusinessOwner(businessOwner);
+       offer.setInfluencer(influencer);
+       Offer o= offerRepository.save(offer);
+       OfferDTO offerDTO1 = new OfferDTO();
+        BeanUtils.copyProperties(o,offerDTO1);
+        return offerDTO1;
     }
 }

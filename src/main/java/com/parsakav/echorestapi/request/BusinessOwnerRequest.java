@@ -1,9 +1,13 @@
 package com.parsakav.echorestapi.request;
 
+import com.parsakav.echorestapi.entity.Offer;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.Set;
 
 public class BusinessOwnerRequest {
     @Min(1000000000)
@@ -20,6 +24,7 @@ public class BusinessOwnerRequest {
     @NotNull(message = "Password can't be empty")
     @NotEmpty(message = "Password can't be null")
     private String password;
+
 
     public long getPhoneNumber() {
         return phoneNumber;

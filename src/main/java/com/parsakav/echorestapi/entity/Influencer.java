@@ -1,14 +1,12 @@
 package com.parsakav.echorestapi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "INFLUENCER")
@@ -22,6 +20,8 @@ public class Influencer extends User {
     @Column(name = "FOLLOWERS",nullable = false)
     private int numberOfFollowers;
 
+    @OneToMany(mappedBy = "influencer")
+    private Set<Offer> receivedOffers;
     public Influencer(){
 
     }
@@ -59,5 +59,12 @@ public class Influencer extends User {
         this.accountId = accountId;
     }
 
+    public Set<Offer> getReceivedOffers() {
+        return receivedOffers;
+    }
+
+    public void setReceivedOffers(Set<Offer> receivedOffers) {
+        this.receivedOffers = receivedOffers;
+    }
 
 }

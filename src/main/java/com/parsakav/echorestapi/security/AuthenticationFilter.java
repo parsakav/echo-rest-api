@@ -4,14 +4,21 @@ import java.io.IOException;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 import com.parsakav.echorestapi.SpringApplicationContext;
 import com.parsakav.echorestapi.request.UserLoginRequest;
+import com.parsakav.echorestapi.service.RoleService;
+import com.parsakav.echorestapi.service.RoleServiceImpl;
+import com.parsakav.echorestapi.service.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +36,8 @@ import io.jsonwebtoken.security.Keys;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
+	@Autowired
+	private RoleService roleService;
 
 	public AuthenticationFilter(AuthenticationManager authenticationManager) {
 		super();
@@ -43,8 +52,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			UserLoginRequest creds = new ObjectMapper().readValue(request.getInputStream(),
 					UserLoginRequest.class);
 
+
 			return authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(creds.getPhoneNumber(), creds.getPassword(), new ArrayList()));
+					new UsernamePasswordAuthenticationToken(creds.getPhoneNumber(), creds.getPassword(), null));
 		}catch (com.fasterxml.jackson.databind.exc.MismatchedInputException e){
 			System.out.println(e.getMessage());
 		}

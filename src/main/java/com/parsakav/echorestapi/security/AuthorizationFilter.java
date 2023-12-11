@@ -2,20 +2,33 @@ package com.parsakav.echorestapi.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
+import com.parsakav.echorestapi.SpringApplicationContext;
+import com.parsakav.echorestapi.service.RoleService;
+import com.parsakav.echorestapi.service.RoleServiceImpl;
+import com.parsakav.echorestapi.service.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import io.jsonwebtoken.Jwts;
+import org.springframework.stereotype.Component;
+
+import javax.management.relation.Role;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
+
 
 	public AuthorizationFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
@@ -38,20 +51,25 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthetication(HttpServletRequest request) {
+		RoleService roleService= (RoleService) SpringApplicationContext.getBean("roleServiceImpl");
 		String header = request.getHeader(SecurityConstant.HEADER_STRING);
 		try {
 			if (header != null) {
 
 				String username = Jwts.parserBuilder().setSigningKey(SecurityConstant.getSigningKey()).build()
 						.parseClaimsJws(header.replace("Bearer", "").trim()).getBody().getSubject();
-				System.out.println(username);
 				// TODO Auto-generated method stub
 				if (username != null) {
+					System.out.println("Hi");
+					List<GrantedAuthority> roles = new ArrayList<>();
+					roles.add(new SimpleGrantedAuthority(roleService.findRole(username)));
+					System.out.println("p");
 
-					return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+					return new UsernamePasswordAuthenticationToken(username, null, roles);
 				}
 			}
 		} catch (Exception e) {
+e.printStackTrace();
 
 		}
 		return null;

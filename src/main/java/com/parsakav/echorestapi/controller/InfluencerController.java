@@ -2,12 +2,14 @@ package com.parsakav.echorestapi.controller;
 
 
 import com.parsakav.echorestapi.dto.InfluencerDTO;
+import com.parsakav.echorestapi.dto.OfferDTO;
 import com.parsakav.echorestapi.entity.Influencer;
 import com.parsakav.echorestapi.exceptions.UserServiceException;
 import com.parsakav.echorestapi.request.InfluencerRequest;
 import com.parsakav.echorestapi.response.ErrorMessages;
 import com.parsakav.echorestapi.response.InfluencerResponse;
 import com.parsakav.echorestapi.service.InfluencerService;
+import com.parsakav.echorestapi.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -121,10 +124,11 @@ public class InfluencerController {
     )
 
 
+   // @PreAuthorize("hasRole('ROLE_BUISNESS')")
     @GetMapping( produces = {MediaType.APPLICATION_JSON_VALUE
             ,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<InfluencerResponse>> get(){
-        List<InfluencerResponse> influencerResponses = new LinkedList<>();
+  List<InfluencerResponse> influencerResponses = new LinkedList<>();
         List<InfluencerDTO> all = influencerService.findAll();
         for(InfluencerDTO a:all){
             InfluencerResponse returnValue=new InfluencerResponse();
@@ -152,6 +156,8 @@ public class InfluencerController {
             @ApiResponse(responseCode = "403",content = { @Content(schema = @Schema(implementation = String.class), mediaType ="text/plain")}, description = "If token wasn't valid")}
     )
 
+
+  //  @PreAuthorize("hasRole('ROLE_INFLUENCER')")
     @GetMapping(path = "{phoneNumber}",produces = {MediaType.APPLICATION_JSON_VALUE
             ,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<InfluencerResponse> get(@PathVariable("phoneNumber") String phoneNumber){
@@ -162,6 +168,20 @@ public class InfluencerController {
             BeanUtils.copyProperties(influencerDTO,influencerResponse);
             return ResponseEntity.ok().body(influencerResponse);
         } return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping(path = "/offers/{phoneNumber}")
+
+    public ResponseEntity<List<OfferDTO>> findRole(@PathVariable("phoneNumber") String phoneNumber){
+
+        return ResponseEntity.ok(influencerService.getOffers(phoneNumber));
+    }
+
+    @GetMapping(path = "/offers/{phoneNumber}/{id}")
+    public ResponseEntity<String> rejectAnOffer(@PathVariable("phoneNumber") String phoneNumber,@PathVariable("id") int id){
+       return ResponseEntity.ok (influencerService.rejectAnOffer(phoneNumber,id)?"Ok":"Not found");
+
+
     }
 
 

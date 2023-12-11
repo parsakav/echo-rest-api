@@ -2,12 +2,15 @@ package com.parsakav.echorestapi.controller;
 
 import com.parsakav.echorestapi.dto.BusinessOwnerDTO;
 import com.parsakav.echorestapi.dto.InfluencerDTO;
+import com.parsakav.echorestapi.dto.OfferDTO;
 import com.parsakav.echorestapi.exceptions.UserServiceException;
 import com.parsakav.echorestapi.request.BusinessOwnerRequest;
 import com.parsakav.echorestapi.request.InfluencerRequest;
+import com.parsakav.echorestapi.request.OfferRequest;
 import com.parsakav.echorestapi.response.BusinessOwnerResponse;
 import com.parsakav.echorestapi.response.ErrorMessages;
 import com.parsakav.echorestapi.response.InfluencerResponse;
+import com.parsakav.echorestapi.response.OfferResponse;
 import com.parsakav.echorestapi.service.BusinessOwnerService;
 import com.parsakav.echorestapi.service.InfluencerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,11 +19,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -70,5 +75,22 @@ public class BusinessOwnerController {
         BeanUtils.copyProperties(dto,influencerResponse);
 
         return  ResponseEntity.ok(influencerResponse);
+    }
+
+
+    @PostMapping("/offer")
+    public ResponseEntity<OfferResponse> makeAnOffer(@RequestBody @Valid OfferRequest offerRequest, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            logger.trace("OfferRequest validation failed");
+throw new RuntimeException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+        }
+
+        OfferDTO offerDTO = new OfferDTO();
+        BeanUtils.copyProperties(offerRequest,offerDTO);
+
+      OfferDTO rV=  influencerService.makeOffer(offerDTO);
+      OfferResponse rV1 = new OfferResponse();
+      BeanUtils.copyProperties(rV,rV1);
+        return ResponseEntity.ok(rV1);
     }
 }

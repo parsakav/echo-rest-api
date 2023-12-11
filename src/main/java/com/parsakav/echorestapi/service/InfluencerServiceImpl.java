@@ -1,9 +1,12 @@
 package com.parsakav.echorestapi.service;
 
 import com.parsakav.echorestapi.dto.InfluencerDTO;
+import com.parsakav.echorestapi.dto.OfferDTO;
 import com.parsakav.echorestapi.entity.Influencer;
+import com.parsakav.echorestapi.entity.Offer;
 import com.parsakav.echorestapi.exceptions.UserServiceException;
 import com.parsakav.echorestapi.repository.InfluencerRepository;
+import com.parsakav.echorestapi.repository.OfferRepository;
 import com.parsakav.echorestapi.response.ErrorMessages;
 import com.parsakav.echorestapi.utils.Utils;
 import org.springframework.beans.BeanUtils;
@@ -12,8 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class InfluencerServiceImpl implements InfluencerService{
@@ -23,6 +28,8 @@ public class InfluencerServiceImpl implements InfluencerService{
     private PasswordEncoder encoder;
     @Autowired
     private Utils utils;
+    @Autowired
+    private OfferRepository offerRepository;
     @Transactional
     public InfluencerDTO save(final InfluencerDTO influencerDTO){
         if(repository.existsById(influencerDTO.getPhoneNumber())){
@@ -82,6 +89,42 @@ return null;
             BeanUtils.copyProperties(a, returnValue);
             influencerDTOS.add(returnValue);
         }
+    }
+    public List<OfferDTO> getOffers(String phoneNumber){
+       Influencer influencer= this.repository.getReferenceById(Long.valueOf(phoneNumber));
+
+       List<OfferDTO> dtos = new ArrayList<>();
+      Set<Offer> offers= influencer.getReceivedOffers();
+      for(Offer o: offers){
+          if(!o.isAccept()) {
+              continue;
+          }
+
+          OfferDTO offerDTO = new OfferDTO();
+          BeanUtils.copyProperties(o,offerDTO);
+          dtos.add(offerDTO);
+          offerDTO.setFullName(o.getBusinessOwner().getFullName());
+          offerDTO.setInfluencerPhoneNumber(o.getInfluencer().getPhoneNumber());
+          offerDTO.setBuisnessOwnerPhoneNumber(o.getBusinessOwner().getPhoneNumber());
+      }
+      return dtos;
+
+    }
+
+    @Override
+    public boolean rejectAnOffer(String phoneNumber, int id) {
+        Influencer influencer= repository.getReferenceById(Long.parseLong(phoneNumber));
+        if(influencer==null){
+            return false;
+        }
+       Offer o= offerRepository.getReferenceById(id);
+        if(o==null){
+            return false;
+        }
+
+o.setAccept(false);
+        offerRepository.saveAndFlush(o);
+        return true;
     }
 
 }
