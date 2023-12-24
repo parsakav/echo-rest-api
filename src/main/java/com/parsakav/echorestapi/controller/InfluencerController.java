@@ -119,9 +119,8 @@ public class InfluencerController {
 //    @PreAuthorize("hasRole('ROLE_INFLUENCER')")
 
 
- @PreAuthorize("hasRole('ROLE_BUISNESS')")
-    @GetMapping( produces = {MediaType.APPLICATION_JSON_VALUE
-            ,MediaType.APPLICATION_XML_VALUE})
+ @PreAuthorize("hasAnyRole('ROLE_BUISNESS','ROLE_INFLUENCER')")
+    @GetMapping(produces={MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<InfluencerResponse>> get(){
   List<InfluencerResponse> influencerResponses = new LinkedList<>();
         List<InfluencerDTO> all = influencerService.findAll();
