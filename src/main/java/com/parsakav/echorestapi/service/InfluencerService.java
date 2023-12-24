@@ -17,4 +17,5 @@ public interface InfluencerService {
     public List<OfferDTO> getOffers(String phoneNumber);
 
     boolean rejectAnOffer(String phoneNumber, int id);
+    boolean agreeAnOffer(String phoneNumber, int id);
 }

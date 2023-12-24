@@ -48,7 +48,7 @@ public class Offer {
         this.text = text;
     }
 
-    public boolean isAccept() {
+    public Boolean isAccept() {
         return accept;
     }
 

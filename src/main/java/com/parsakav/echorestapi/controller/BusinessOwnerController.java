@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,14 +79,29 @@ public class BusinessOwnerController {
         return  ResponseEntity.ok(influencerResponse);
     }
 
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Send an offer",
+            description = "Send an offfer to a specific influencer by a specific business owner"
 
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "Ok will return of everything is ok  ",
+                    content = { @Content(schema = @Schema(implementation = OfferResponse.class), mediaType = "application/json" )
+                            ,}
+            ), @ApiResponse(responseCode = "500",description = "If validation failed",
+            content = { @Content(schema = @Schema(implementation = String.class), mediaType = "text/plain" )}
+
+                    )}
+    )
     @PostMapping("/offer")
+    @PreAuthorize("hasRole('ROLE_BUISNESS')")
+
     public ResponseEntity<OfferResponse> makeAnOffer(@RequestBody @Valid OfferRequest offerRequest, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             logger.trace("OfferRequest validation failed");
 throw new RuntimeException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
         }
-
         OfferDTO offerDTO = new OfferDTO();
         BeanUtils.copyProperties(offerRequest,offerDTO);
 

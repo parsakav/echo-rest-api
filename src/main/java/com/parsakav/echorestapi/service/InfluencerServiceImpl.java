@@ -11,6 +11,7 @@ import com.parsakav.echorestapi.response.ErrorMessages;
 import com.parsakav.echorestapi.utils.Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,7 +97,7 @@ return null;
        List<OfferDTO> dtos = new ArrayList<>();
       Set<Offer> offers= influencer.getReceivedOffers();
       for(Offer o: offers){
-          if(!o.isAccept()) {
+          if(o.isAccept()!=null && !o.isAccept()) {
               continue;
           }
 
@@ -113,18 +114,27 @@ return null;
 
     @Override
     public boolean rejectAnOffer(String phoneNumber, int id) {
+      return setAccept(phoneNumber,id,false);
+    }
+    private boolean setAccept(String phoneNumber,int id,boolean accept){
         Influencer influencer= repository.getReferenceById(Long.parseLong(phoneNumber));
         if(influencer==null){
             return false;
         }
-       Offer o= offerRepository.getReferenceById(id);
+        Offer o= offerRepository.getReferenceById(id);
         if(o==null){
             return false;
         }
 
-o.setAccept(false);
+        o.setAccept(accept);
         offerRepository.saveAndFlush(o);
         return true;
+    }
+
+    @Override
+    public boolean agreeAnOffer(String phoneNumber, int id)
+    {
+        return setAccept(phoneNumber,id,true);
     }
 
 }
