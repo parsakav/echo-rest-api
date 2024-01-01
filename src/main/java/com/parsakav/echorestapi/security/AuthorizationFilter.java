@@ -64,7 +64,6 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 					List<GrantedAuthority> roles = new ArrayList<>();
 					System.out.println(roleService.findRole(username));
 					roles.add(new SimpleGrantedAuthority(roleService.findRole(username)));
-					System.out.println("p");
 					return new UsernamePasswordAuthenticationToken(username, null, roles);
 				}
 			}

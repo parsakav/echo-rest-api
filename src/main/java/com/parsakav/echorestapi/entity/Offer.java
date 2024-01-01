@@ -23,6 +23,8 @@ public class Offer {
     private Boolean accept=null;
 
 
+    @OneToOne(mappedBy = "offer")
+    private Comment comment;
     @ManyToOne(optional = false)
     private Influencer influencer;
     @ManyToOne(optional = false)

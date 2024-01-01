@@ -26,6 +26,8 @@ public class OfferDTO {
 
 private Date date;
 
+private boolean accept;
+
     public Date getDate() {
         return date;
     }
@@ -76,6 +78,14 @@ private Date date;
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean isAccept() {
+        return accept;
+    }
+
+    public void setAccept(Boolean accept) {
+        this.accept = accept;
     }
 
     public void setFullName(String fullName) {

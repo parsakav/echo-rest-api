@@ -9,5 +9,4 @@ public interface BusinessOwnerService {
     BusinessOwnerDTO findByPhonenumber(Long phoneNumber);
 
 
-    OfferDTO makeOffer(OfferDTO offerDTO);
 }

@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface BusinessOwnerRepository extends JpaRepository<BusinessOwner,Long> {
     @Query(value = "select * from BUSINESS_OWNER where `phonenumber`=:phoneNumber ;",nativeQuery = true)
-    Optional<Influencer> findInfluencerByPhoneNumber(long phoneNumber);
+    Optional<BusinessOwner> findInfluencerByPhoneNumber(long phoneNumber);
 }

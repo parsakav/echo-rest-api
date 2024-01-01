@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "COMMENT")
 public class Comment {
     @Id
     @Column
@@ -19,10 +19,9 @@ public class Comment {
 
     @Column(nullable = true)
     private Boolean accept=null;
-    @ManyToOne(optional = false)
-    private Influencer influencer;
-    @ManyToOne(optional = false)
-    private BusinessOwner businessOwner;
+    @OneToOne(optional = false)
+    private Offer offer;
+
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,27 +59,17 @@ public class Comment {
         this.accept = accept;
     }
 
-    public Influencer getInfluencer() {
-        return influencer;
+    public Offer getOffer() {
+        return offer;
     }
 
-    public void setInfluencer(Influencer influencer) {
-        this.influencer = influencer;
-    }
-
-    public BusinessOwner getBusinessOwner() {
-        return businessOwner;
-    }
-
-    public void setBusinessOwner(BusinessOwner businessOwner) {
-        this.businessOwner = businessOwner;
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
     public Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+
 }

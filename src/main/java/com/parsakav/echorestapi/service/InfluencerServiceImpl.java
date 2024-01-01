@@ -91,50 +91,7 @@ return null;
             influencerDTOS.add(returnValue);
         }
     }
-    public List<OfferDTO> getOffers(String phoneNumber){
-       Influencer influencer= this.repository.getReferenceById(Long.valueOf(phoneNumber));
 
-       List<OfferDTO> dtos = new ArrayList<>();
-      Set<Offer> offers= influencer.getReceivedOffers();
-      for(Offer o: offers){
-          if(o.isAccept()!=null && !o.isAccept()) {
-              continue;
-          }
 
-          OfferDTO offerDTO = new OfferDTO();
-          BeanUtils.copyProperties(o,offerDTO);
-          dtos.add(offerDTO);
-          offerDTO.setFullName(o.getBusinessOwner().getFullName());
-          offerDTO.setInfluencerPhoneNumber(o.getInfluencer().getPhoneNumber());
-          offerDTO.setBuisnessOwnerPhoneNumber(o.getBusinessOwner().getPhoneNumber());
-      }
-      return dtos;
-
-    }
-
-    @Override
-    public boolean rejectAnOffer(String phoneNumber, int id) {
-      return setAccept(phoneNumber,id,false);
-    }
-    private boolean setAccept(String phoneNumber,int id,boolean accept){
-        Influencer influencer= repository.getReferenceById(Long.parseLong(phoneNumber));
-        if(influencer==null){
-            return false;
-        }
-        Offer o= offerRepository.getReferenceById(id);
-        if(o==null){
-            return false;
-        }
-
-        o.setAccept(accept);
-        offerRepository.saveAndFlush(o);
-        return true;
-    }
-
-    @Override
-    public boolean agreeAnOffer(String phoneNumber, int id)
-    {
-        return setAccept(phoneNumber,id,true);
-    }
 
 }

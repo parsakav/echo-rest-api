@@ -66,22 +66,5 @@ public class BusinessOwnerServiceImpl implements BusinessOwnerService {
 
     }
 
-    @Override
-    public OfferDTO makeOffer(OfferDTO offerDTO) {
-       Offer offer = new Offer();
 
-       offer.setDate(new Date());
-       offer.setText(offerDTO.getText());
-       offer.setTitle(offerDTO.getTitle());
-       Influencer influencer = new Influencer();
-       influencer.setPhoneNumber(offerDTO.getInfluencerPhoneNumber());
-       BusinessOwner businessOwner = new BusinessOwner();
-       businessOwner.setPhoneNumber(offerDTO.getBuisnessOwnerPhoneNumber());
-       offer.setBusinessOwner(businessOwner);
-       offer.setInfluencer(influencer);
-       Offer o= offerRepository.save(offer);
-       OfferDTO offerDTO1 = new OfferDTO();
-        BeanUtils.copyProperties(o,offerDTO1);
-        return offerDTO1;
-    }
 }

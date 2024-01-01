@@ -8,6 +8,7 @@ import com.parsakav.echorestapi.request.InfluencerRequest;
 import com.parsakav.echorestapi.response.ErrorMessages;
 import com.parsakav.echorestapi.response.InfluencerResponse;
 import com.parsakav.echorestapi.service.InfluencerService;
+import com.parsakav.echorestapi.service.OfferService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,6 +37,8 @@ import java.util.List;
 public class InfluencerController {
     @Autowired
     private InfluencerService influencerService;
+    @Autowired
+    private OfferService offerService;
     private static final Logger logger = LoggerFactory.getLogger(InfluencerController.class);
 
     @Operation(
@@ -184,7 +187,13 @@ public class InfluencerController {
 
     public ResponseEntity<List<OfferDTO>> offers(@PathVariable("phoneNumber") String phoneNumber){
 
-        return ResponseEntity.ok(influencerService.getOffers(phoneNumber));
+        return ResponseEntity.ok(offerService.getOffers(phoneNumber));
+    } @GetMapping(path = "/offers/accept/{phoneNumber}",produces = {MediaType.APPLICATION_JSON_VALUE
+            ,MediaType.APPLICATION_XML_VALUE})
+
+    public ResponseEntity<List<OfferDTO>> acceptedOffers(@PathVariable("phoneNumber") String phoneNumber){
+
+        return ResponseEntity.ok(offerService.getAcceptedOffers(phoneNumber));
     }
     @Operation(
             //summary = "Retrieve a Tutorial by Id",
@@ -201,7 +210,7 @@ public class InfluencerController {
 @PreAuthorize("hasRole('ROLE_INFLUENCER')")
     @GetMapping(path = "/offers/reject/{phoneNumber}/{id}")
     public ResponseEntity<String> rejectAnOffer(@PathVariable("phoneNumber") String phoneNumber,@PathVariable("id") int id){
-       return ResponseEntity.ok (influencerService.rejectAnOffer(phoneNumber,id)?"Ok":"Not found");
+       return ResponseEntity.ok (offerService.rejectAnOffer(phoneNumber,id)?"Ok":"Not found");
 
 
     }
@@ -220,7 +229,7 @@ public class InfluencerController {
     @PreAuthorize("hasRole('ROLE_INFLUENCER')")
     @GetMapping(path = "/offers/agree/{phoneNumber}/{id}")
     public ResponseEntity<String> agreeAnOffer(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("id") int id){
-       return ResponseEntity.ok (influencerService.rejectAnOffer(phoneNumber,id)?"Ok":"Not found");
+       return ResponseEntity.ok (offerService.rejectAnOffer(phoneNumber,id)?"Ok":"Not found");
 
 
     }
