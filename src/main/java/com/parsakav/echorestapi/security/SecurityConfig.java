@@ -46,6 +46,7 @@ public class SecurityConfig {
 								.requestMatchers("/api/comment/**").permitAll()
 								.requestMatchers(HttpMethod.POST, "/api/business").permitAll()
 								.requestMatchers(HttpMethod.GET,"/api/business").permitAll()
+								.requestMatchers("/api/utils/**").permitAll()
 
 								.requestMatchers(HttpMethod.GET, "/api/influencer").permitAll()
 								.requestMatchers(HttpMethod.GET, "/api/influencer/search/**").permitAll()

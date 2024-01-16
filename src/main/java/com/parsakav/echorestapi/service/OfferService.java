@@ -15,4 +15,6 @@ public interface OfferService {
     List<OfferDTO> getUnCommentedOffers(long bownerPhoneNumber);
     List<OfferDTO> getAllOffers(long bownerPhoneNumber);
 
+    OfferDTO pay(int offerId);
+
 }

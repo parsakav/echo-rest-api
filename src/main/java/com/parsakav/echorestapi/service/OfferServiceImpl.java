@@ -133,4 +133,19 @@ public class OfferServiceImpl implements OfferService {
         }
         return list;
     }
+
+    @Override
+    public OfferDTO pay(int offerId) {
+
+        Offer o= offerRepository.getReferenceById(offerId);
+        if(o==null){
+            return null;
+        }
+
+        o.setPaid(true);
+        offerRepository.saveAndFlush(o);
+        OfferDTO rv = new OfferDTO();
+        BeanUtils.copyProperties(o,rv);
+        return rv;
+    }
 }
