@@ -43,6 +43,7 @@ public class SecurityConfig {
 						c.requestMatchers(HttpMethod.POST, SecurityConstant.SIGN_UP_URL)
 										.permitAll()
 								.requestMatchers(  "/v3/api-docs/**","/swagger-ui/**").permitAll()
+								.requestMatchers("/api/comment/**").permitAll()
 								.requestMatchers(HttpMethod.POST, "/api/business").permitAll()
 								.requestMatchers(HttpMethod.GET,"/api/business").permitAll()
 
