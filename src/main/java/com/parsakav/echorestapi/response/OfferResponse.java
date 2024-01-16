@@ -3,6 +3,8 @@ package com.parsakav.echorestapi.response;
 import java.util.Date;
 
 public class OfferResponse {
+
+    private int id;
     private String text;
     private String title;
     private Long phoneNumber ;
@@ -51,5 +53,17 @@ public class OfferResponse {
 
     public void setPaid(boolean paid) {
         isPaid = paid;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
     }
 }
