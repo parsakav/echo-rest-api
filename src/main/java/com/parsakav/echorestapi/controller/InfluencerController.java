@@ -229,7 +229,7 @@ public class InfluencerController {
     @PreAuthorize("hasRole('ROLE_INFLUENCER')")
     @GetMapping(path = "/offers/agree/{phoneNumber}/{id}")
     public ResponseEntity<String> agreeAnOffer(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("id") int id){
-       return ResponseEntity.ok (offerService.rejectAnOffer(phoneNumber,id)?"Ok":"Not found");
+       return ResponseEntity.ok (offerService.agreeAnOffer(phoneNumber,id)?"Ok":"Not found");
 
 
     }
