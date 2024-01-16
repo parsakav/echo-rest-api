@@ -26,7 +26,9 @@ public class OfferDTO {
 
 private Date date;
 
-private boolean accept;
+private Boolean accept;
+
+private boolean isPaid;
 
     public Date getDate() {
         return date;
@@ -80,12 +82,21 @@ private boolean accept;
         this.id = id;
     }
 
-    public Boolean isAccept() {
+
+    public Boolean getAccept() {
         return accept;
     }
 
     public void setAccept(Boolean accept) {
         this.accept = accept;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 
     public void setFullName(String fullName) {

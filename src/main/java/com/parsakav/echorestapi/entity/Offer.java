@@ -34,6 +34,9 @@ public class Offer {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date= new Date();
 
+    @Column
+    private boolean isPaid=false;
+
     public int getId() {
         return id;
     }
@@ -90,5 +93,27 @@ public class Offer {
         this.date = date;
     }
 
+    public Boolean getAccept() {
+        return accept;
+    }
 
+    public void setAccept(Boolean accept) {
+        this.accept = accept;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
 }

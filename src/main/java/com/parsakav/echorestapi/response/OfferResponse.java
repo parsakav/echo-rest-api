@@ -7,6 +7,7 @@ public class OfferResponse {
     private String title;
     private Long phoneNumber ;
     private Date date ;
+    private boolean isPaid=false;
 
     public OfferResponse() {
 
@@ -42,5 +43,13 @@ public class OfferResponse {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean getPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 }
