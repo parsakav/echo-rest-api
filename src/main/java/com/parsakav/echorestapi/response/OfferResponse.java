@@ -10,6 +10,8 @@ public class OfferResponse {
     private Long phoneNumber ;
     private Date date ;
     private boolean isPaid=false;
+    private Boolean accept;
+
 
     public OfferResponse() {
 
@@ -65,5 +67,13 @@ public class OfferResponse {
 
     public boolean isPaid() {
         return isPaid;
+    }
+
+    public Boolean getAccept() {
+        return accept;
+    }
+
+    public void setAccept(Boolean accept) {
+        this.accept = accept;
     }
 }

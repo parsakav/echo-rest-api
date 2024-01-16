@@ -153,7 +153,7 @@ public class InfluencerController {
             @ApiResponse(responseCode = "403",content = { @Content(schema = @Schema(implementation = String.class), mediaType ="text/plain")}, description = "If token wasn't valid")}
     )
 
-    @PreAuthorize("hasRole('ROLE_INFLUENCER')")
+    @PreAuthorize("hasAnyRole('ROLE_INFLUENCER','ROLE_BUISNESS')")
 
   //  @PreAuthorize("hasRole('ROLE_INFLUENCER')")
     @GetMapping(path = "{phoneNumber}",produces = {MediaType.APPLICATION_JSON_VALUE
