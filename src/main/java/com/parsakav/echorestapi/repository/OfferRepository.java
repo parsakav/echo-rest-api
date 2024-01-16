@@ -11,4 +11,7 @@ public interface OfferRepository extends JpaRepository<Offer,Integer> {
     @Query(
             " from  Offer o where o.businessOwner.phoneNumber not in (select c.offer.businessOwner.phoneNumber from Comment c) and o.businessOwner.phoneNumber =:phoneNumber")
 public Set<Offer> getOfferWithoutComment(@Param("phoneNumber")long phoneNumber);
+    @Query(
+            " from  Offer o where o.businessOwner.phoneNumber =:phoneNumber")
+public Set<Offer> getAllOffers(@Param("phoneNumber")long phoneNumber);
 }

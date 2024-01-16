@@ -119,4 +119,18 @@ public class OfferServiceImpl implements OfferService {
         }
         return list;
     }
+
+    @Override
+    public List<OfferDTO> getAllOffers(long bownerPhoneNumber) {
+        Set<Offer> offers= offerRepository.getAllOffers(bownerPhoneNumber);
+        List<OfferDTO> list = new LinkedList<>();
+        for(Offer o:offers){
+            OfferDTO odto= new OfferDTO();
+            odto.setInfluencerPhoneNumber(o.getInfluencer().getPhoneNumber());
+            odto.setBuisnessOwnerPhoneNumber(o.getBusinessOwner().getPhoneNumber());
+            BeanUtils.copyProperties(o,odto);
+            list.add(odto);
+        }
+        return list;
+    }
 }

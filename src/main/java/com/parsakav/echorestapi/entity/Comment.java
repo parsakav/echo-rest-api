@@ -27,6 +27,8 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date= new Date();
 
+
+
     public int getId() {
         return id;
     }

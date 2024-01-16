@@ -13,4 +13,6 @@ public interface OfferService {
     public OfferDTO save(OfferDTO offerDTO);
 
     List<OfferDTO> getUnCommentedOffers(long bownerPhoneNumber);
+    List<OfferDTO> getAllOffers(long bownerPhoneNumber);
+
 }

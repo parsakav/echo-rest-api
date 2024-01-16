@@ -94,6 +94,8 @@ public class CommentController {
             OfferResponse rv = new OfferResponse();
 
             BeanUtils.copyProperties(c, rv);
+            rv.setPhoneNumber(c.getInfluencerPhoneNumber());
+
             commentDTOS.add(rv);
         }
         return ResponseEntity.ok(commentDTOS);

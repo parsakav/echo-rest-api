@@ -24,11 +24,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.management.relation.RoleNotFoundException;
+import java.util.LinkedList;
+import java.util.List;
 
 @RestController
 @Tag(name = "Business owner", description = "Business owner management APIs")
@@ -106,8 +108,39 @@ throw new RuntimeException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage(
       BeanUtils.copyProperties(rV,rV1);
         return ResponseEntity.ok(rV1);
     }
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Get all offers",
+            description = "Get offers that sent by specific business owner"
 
-    public String comment(){
-        return "s";
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "List of offers will return if everything is ok  ",
+                    content = { @Content(schema = @Schema(implementation = OfferResponse.class), mediaType = "application/json" )
+                            ,}
+            ), @ApiResponse(responseCode = "500",description = "If validation failed",
+            content = { @Content(schema = @Schema(implementation = String.class), mediaType = "text/plain" )}
+
+    )}
+    )
+    @GetMapping("/offer/{bownerPhoneNumber}")
+    @PreAuthorize("hasRole('ROLE_BUISNESS')")
+
+    public ResponseEntity<List<OfferResponse>> getَAllOffers(@PathVariable("bownerPhoneNumber") long bownerPhoneNumber){
+
+        String rolePhoneNumber=(String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      if(!rolePhoneNumber.trim().equals(bownerPhoneNumber+"")){
+          throw new RuntimeException("Forbidden");
+      }
+        List<OfferResponse> commentDTOS = new LinkedList<>();
+        List<OfferDTO> save = offerService.getAllOffers(bownerPhoneNumber);
+        for(OfferDTO c: save) {
+            OfferResponse rv = new OfferResponse();
+            BeanUtils.copyProperties(c, rv);
+            rv.setPhoneNumber(c.getInfluencerPhoneNumber());
+            commentDTOS.add(rv);
+        }
+        return ResponseEntity.ok(commentDTOS);
     }
+  
 }
