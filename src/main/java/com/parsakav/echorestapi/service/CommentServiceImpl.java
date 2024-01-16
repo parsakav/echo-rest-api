@@ -43,10 +43,56 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> save = commentRepository.getComments(phoneNumber);
         for(Comment c: save) {
             CommentDTO rv = new CommentDTO();
-
             BeanUtils.copyProperties(c, rv);
+            rv.setOfferId(c.getOffer().getId());
+            rv.setCommentId(c.getId());
             commentDTOS.add(rv);
         }
         return commentDTOS;
+    }
+    @Override
+    public List<CommentDTO> getAcceptedComments(long phoneNumber) {
+   List<CommentDTO> commentDTOS = new LinkedList<>();
+        List<Comment> save = commentRepository.getAcceptedComments(phoneNumber);
+        for(Comment c: save) {
+            CommentDTO rv = new CommentDTO();
+            BeanUtils.copyProperties(c, rv);
+            rv.setOfferId(c.getOffer().getId());
+            rv.setCommentId(c.getId());
+
+            commentDTOS.add(rv);
+        }
+        return commentDTOS;
+    }
+
+    @Override
+    public List<CommentDTO> getBusinessOwnerComments(long phoneNumber) {
+        List<CommentDTO> commentDTOS = new LinkedList<>();
+        List<Comment> save = commentRepository.getBussinessOwnerComments(phoneNumber);
+        for(Comment c: save) {
+            CommentDTO rv = new CommentDTO();
+            BeanUtils.copyProperties(c, rv);
+            rv.setOfferId(c.getOffer().getId());
+            rv.setCommentId(c.getId());
+
+            commentDTOS.add(rv);
+        }
+        return commentDTOS;
+    }
+
+    @Override
+    public List<CommentDTO> getAcceptedBusinessOwnerComments(long phoneNumber) {
+        List<CommentDTO> commentDTOS = new LinkedList<>();
+        List<Comment> save = commentRepository.getBusinessOwnerAcceptedComments(phoneNumber);
+        for(Comment c: save) {
+            CommentDTO rv = new CommentDTO();
+            BeanUtils.copyProperties(c, rv);
+            rv.setOfferId(c.getOffer().getId());
+            rv.setCommentId(c.getId());
+
+            commentDTOS.add(rv);
+        }
+        return commentDTOS;
+
     }
 }

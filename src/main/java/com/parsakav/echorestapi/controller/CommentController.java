@@ -126,4 +126,81 @@ public class CommentController {
         }
         return ResponseEntity.ok(commentDTOS);
     }
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Get influencer accepted comments",
+            description = "clear"
+
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "List of comments related to the influencer(accepted comments)",
+                    content = { @Content(schema = @Schema(implementation = CommentResponse.class), mediaType = "application/json" )
+                            ,}
+            )}
+    )
+    @GetMapping("/accept/{influencerPhonenumber}")
+    public ResponseEntity<List<CommentResponse>> getAcceptedComments(@PathVariable("influencerPhonenumber") long influecerPhoneNumber){
+
+        List<CommentResponse> commentDTOS = new LinkedList<>();
+        List<CommentDTO> save = commentService.getAcceptedComments(influecerPhoneNumber);
+        for(CommentDTO c: save) {
+            CommentResponse rv = new CommentResponse();
+
+            BeanUtils.copyProperties(c, rv);
+            commentDTOS.add(rv);
+        }
+        return ResponseEntity.ok(commentDTOS);
+    }
+
+
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Get businessowner  comments",
+            description = "clear"
+
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "List of comments related to the businessowner",
+                    content = { @Content(schema = @Schema(implementation = CommentResponse.class), mediaType = "application/json" )
+                            ,}
+            )}
+    )
+    @GetMapping("/businessowner/{influencerPhonenumber}")
+    public ResponseEntity<List<CommentResponse>> getBussinessOwnerComments(@PathVariable("influencerPhonenumber") long influecerPhoneNumber){
+
+        List<CommentResponse> commentDTOS = new LinkedList<>();
+        List<CommentDTO> save = commentService.getBusinessOwnerComments(influecerPhoneNumber);
+        for(CommentDTO c: save) {
+            CommentResponse rv = new CommentResponse();
+
+            BeanUtils.copyProperties(c, rv);
+            commentDTOS.add(rv);
+        }
+        return ResponseEntity.ok(commentDTOS);
+    }
+    @Operation(
+            //summary = "Retrieve a Tutorial by Id",
+            summary = "Get businessowner accepted comments",
+            description = "clear"
+
+            /*    tags = *//*{ "Influencer", "Post" }*//*"Influencer"*/)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "List of comments related to the businessowner(accepted comments)",
+                    content = { @Content(schema = @Schema(implementation = CommentResponse.class), mediaType = "application/json" )
+                            ,}
+            )}
+    )
+    @GetMapping("/accept/businessowner/{influencerPhonenumber}")
+    public ResponseEntity<List<CommentResponse>> getAcceptedBussinessOwnerComments(@PathVariable("influencerPhonenumber") long influecerPhoneNumber){
+
+        List<CommentResponse> commentDTOS = new LinkedList<>();
+        List<CommentDTO> save = commentService.getAcceptedBusinessOwnerComments(influecerPhoneNumber);
+        for(CommentDTO c: save) {
+            CommentResponse rv = new CommentResponse();
+
+            BeanUtils.copyProperties(c, rv);
+            commentDTOS.add(rv);
+        }
+        return ResponseEntity.ok(commentDTOS);
+    }
 }

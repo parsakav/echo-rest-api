@@ -5,15 +5,38 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+
 public class CommentDTO {
 
 
+
+    private long commentId;
     private long offerId;
 
 
     private int rate;
 
     private String text;
+
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(long commentId) {
+        this.commentId = commentId;
+    }
 
     public long getOfferId() {
         return offerId;
