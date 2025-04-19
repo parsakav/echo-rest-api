@@ -4,9 +4,11 @@ package com.parsakav.echorestapi.controller;
 import com.parsakav.echorestapi.dto.InfluencerDTO;
 import com.parsakav.echorestapi.dto.OfferDTO;
 import com.parsakav.echorestapi.exceptions.UserServiceException;
+import com.parsakav.echorestapi.infrastructure.InstagramClient;
 import com.parsakav.echorestapi.request.InfluencerRequest;
 import com.parsakav.echorestapi.response.ErrorMessages;
 import com.parsakav.echorestapi.response.InfluencerResponse;
+import com.parsakav.echorestapi.response.VerifyResponse;
 import com.parsakav.echorestapi.service.InfluencerService;
 import com.parsakav.echorestapi.service.OfferService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +40,8 @@ public class InfluencerController {
     @Autowired
     private InfluencerService influencerService;
     @Autowired
+    private InstagramClient instagramClient;
+    @Autowired
     private OfferService offerService;
     private static final Logger logger = LoggerFactory.getLogger(InfluencerController.class);
 
@@ -60,6 +64,7 @@ public class InfluencerController {
             ,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<InfluencerResponse> save(@RequestBody @Valid InfluencerRequest influencerRequest, BindingResult bindingResult){
 
+        System.out.println("SALAM");
         if(bindingResult.hasErrors()){
             logger.trace("Influencer validation faild");
             bindingResult.getAllErrors().forEach(System.out::println);
@@ -72,6 +77,13 @@ public class InfluencerController {
         BeanUtils.copyProperties(dto,influencerResponse);
 
         return  ResponseEntity.ok(influencerResponse);
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<VerifyResponse> verify(@RequestParam String accountId) {
+        System.out.println("Verify");
+        VerifyResponse resp = influencerService.verifyAccountOwnership(accountId);
+        return ResponseEntity.ok(resp);
     }
 
     @Operation(

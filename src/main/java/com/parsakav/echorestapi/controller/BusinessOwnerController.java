@@ -28,7 +28,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.RoleNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 

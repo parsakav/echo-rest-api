@@ -1,23 +1,16 @@
 package com.parsakav.echorestapi.service;
 
 import com.parsakav.echorestapi.dto.BusinessOwnerDTO;
-import com.parsakav.echorestapi.dto.InfluencerDTO;
-import com.parsakav.echorestapi.dto.OfferDTO;
 import com.parsakav.echorestapi.entity.BusinessOwner;
-import com.parsakav.echorestapi.entity.Influencer;
-import com.parsakav.echorestapi.entity.Offer;
 import com.parsakav.echorestapi.exceptions.UserServiceException;
 import com.parsakav.echorestapi.repository.BusinessOwnerRepository;
 import com.parsakav.echorestapi.repository.OfferRepository;
 import com.parsakav.echorestapi.response.ErrorMessages;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
 
 @Service
 public class BusinessOwnerServiceImpl implements BusinessOwnerService {

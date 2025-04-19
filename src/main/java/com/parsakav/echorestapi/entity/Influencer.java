@@ -19,7 +19,8 @@ public class Influencer extends User {
     private String accountType;
     @Column(name = "FOLLOWERS",nullable = false)
     private int numberOfFollowers;
-
+private String imageUrl;
+    private boolean verify;
     @OneToMany(mappedBy = "influencer")
     private Set<Offer> receivedOffers;
     public Influencer(){
@@ -31,7 +32,9 @@ public class Influencer extends User {
         this.accountId = accountId;
         this.accountType = accountType;
         this.numberOfFollowers = numberOfFollowers;
+        verify=false;
     }
+
 
 
 
@@ -67,4 +70,19 @@ public class Influencer extends User {
         this.receivedOffers = receivedOffers;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isVerify() {
+        return verify;
+    }
+
+    public void setVerify(boolean verify) {
+        this.verify = verify;
+    }
 }

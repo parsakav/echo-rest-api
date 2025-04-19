@@ -17,6 +17,7 @@ public class InfluencerResponse {
     private String accountId;
     private String accountType;
 
+    private String otpCode; // for initial response
 
     private int numberOfFollowers;
 

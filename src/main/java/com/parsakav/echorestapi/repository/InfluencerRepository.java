@@ -18,4 +18,6 @@ public abstract Influencer findByMail(String mail);
     @Query(value = "select * from Influencer where `FOLLOWERS`>:followers ;",nativeQuery = true)
    List<Influencer> findInfluencersFollowersGraterThan(int followers);
 
+    @Query(value = "select * from Influencer i where i.accountId=:id",nativeQuery = true)
+    Optional<Influencer> findInfluencerByAccountId(String id);
 }
